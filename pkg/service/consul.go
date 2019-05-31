@@ -8,9 +8,7 @@ import (
 )
 
 func (s *Service) registerConsul() {
-	c, err := consul.NewClient(&consul.Config{
-		Address: "consul-consul-server.default.svc.cluster.local:8500",
-	})
+	c, err := consul.NewClient(consul.DefaultConfig())
 	if err != nil {
 		log.Fatal("Failed to connect to Consul: ", err)
 	}
