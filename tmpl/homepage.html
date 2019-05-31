@@ -7,16 +7,25 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <link rel="stylesheet" href="https://purecss.io/combo/1.18.13?/css/layouts/marketing.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <style>
+        .banner {
+            background: transparent url('/static/{{ . }}.svg') 0 0 no-repeat;
+            background-size: contain;
+            width: 600px;
+            height: 650px;
+            border: 2px dashed #111;
+        }
+    </style>
 </head>
 <body>
-<div class="splash-container">
-    <div class="splash">
-        <h1 class="splash-head">{{ . }}</h1>
-        <p class="splash-subhead">
-            # of nodes
-        </p>
+<div class="splash-container" style="background: #FDFDFD">
+    <div class="splash" style="position: relative; top: 40px">
+        <p class="splash-subhead" style="color:#111"># of nodes</p>
+        <div class="banner">
+    </div>
     </div>
 </div>
 <div class="footer l-box is-center">
-    <a target="_blank" class="pure-menu-link" href="https://github.com/automium/reactor">View the source of this application on <i class="fa fa-github"></i> GitHub.</a>
+    <a target="_blank" class="pure-menu-link" href="https://github.com/automium/reactor">Electron shell diagrams by Greg Robson. View the source of this application on <i class="fa fa-github"></i> GitHub.</a>
+</div>
 </div>
