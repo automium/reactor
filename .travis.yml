@@ -1,0 +1,31 @@
+
+sudo: required
+services:
+  - docker
+env:
+  global:
+    - IMAGE_NAME=automium/reactor-test
+
+matrix:
+  include:
+  - name: "latest"
+    env: TAG=latest
+  - name: "basic"
+    env: TAG=basic
+  - name: "acl"
+    env: TAG=acl
+
+script:
+  - docker build -f Dockerfile.${TAG} --no-cache --pull --tag "${IMAGE_NAME}:${TAG}" .
+
+after_script:
+  - docker images
+
+before_deploy:
+  - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}"
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:${TAG}"
+  on:
+    branch: master
