@@ -4,7 +4,7 @@ services:
   - docker
 env:
   global:
-    - IMAGE_NAME=automium/reactor-test
+    - IMAGE_NAME=automium/reactor
 
 matrix:
   include:
@@ -16,16 +16,13 @@ matrix:
     env: TAG=acl
 
 script:
-  - docker build -f Dockerfile.${TAG} --no-cache --pull --tag "${IMAGE_NAME}:${TAG}" .
-
-after_script:
-  - docker images
+  - docker build -f Dockerfile.${TAG} --no-cache --pull --tag "${IMAGE_NAME}:example-${TAG}" .
 
 before_deploy:
   - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}"
 
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:${TAG}"
+  script: docker push "${IMAGE_NAME}:example-${TAG}"
   on:
     branch: master
