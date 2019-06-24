@@ -18,4 +18,7 @@ WORKDIR /root/
 COPY --from=builder /app ./
 COPY --from=builder /go/src/github.com/automium/reactor/tmpl/homepage.html tmpl/homepage.html
 COPY --from=builder /go/src/github.com/automium/reactor/static static
-CMD consul agent -config-dir=/consul/config -config-dir=/consul/aclconfig -data-dir=/consul/data -node-meta image:example-acl -datacenter automium -join consul-consul-server.default.svc.cluster.local & sleep 10 && consul acl set-agent-token default $CONSUL_HTTP_TOKEN && ./app
+
+ENV CONSUL_API consul-consul-server.default.svc.cluster.local
+
+CMD consul agent -config-dir=/consul/config -config-dir=/consul/aclconfig -data-dir=/consul/data -node-meta image:example-acl -datacenter automium -join $CONSUL_API & sleep 10 && consul acl set-agent-token default $CONSUL_HTTP_TOKEN && ./app
