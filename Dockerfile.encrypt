@@ -18,5 +18,6 @@ COPY --from=builder /go/src/github.com/automium/reactor/static static
 
 ENV CONSUL consul-consul-server.default.svc.cluster.local
 ENV CONSUL_DATACENTER automium
+ENV CONSUL_ENCRYPT encryptionkey
 
-CMD consul agent -data-dir=/tmp/consul -node-meta image:example-latest -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && ./app
+CMD consul agent -encrypt $CONSUL_ENCRYPT -data-dir=/tmp/consul -node-meta image:example-encrypt -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && ./app

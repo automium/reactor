@@ -14,6 +14,8 @@ matrix:
     env: TAG=basic
   - name: "acl"
     env: TAG=acl
+  - name: "encrypt"
+    env: TAG=encrypt
 
 script:
   - docker build -f Dockerfile.${TAG} --no-cache --pull --tag "${IMAGE_NAME}:example-${TAG}" .

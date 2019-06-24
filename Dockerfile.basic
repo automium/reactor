@@ -16,6 +16,7 @@ COPY --from=builder /app ./
 COPY --from=builder /go/src/github.com/automium/reactor/tmpl/homepage_basic.html tmpl/homepage.html
 COPY --from=builder /go/src/github.com/automium/reactor/static static
 
-ENV CONSUL_API consul-consul-server.default.svc.cluster.local
+ENV CONSUL consul-consul-server.default.svc.cluster.local
+ENV CONSUL_DATACENTER automium
 
-CMD consul agent -data-dir=/tmp/consul -node-meta image:example-basic -datacenter automium -join $CONSUL_API & sleep 10 && ./app
+CMD consul agent -data-dir=/tmp/consul -node-meta image:example-basic -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && ./app
