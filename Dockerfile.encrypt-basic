@@ -1,0 +1,23 @@
+FROM golang as builder
+WORKDIR /go/src/github.com/automium/reactor
+
+# Install and run dep
+RUN go get -u github.com/golang/dep/cmd/dep
+COPY Gopkg.toml Gopkg.lock ./
+RUN dep ensure --vendor-only
+
+# Copy the code and compile it
+ADD . ./
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix nocgo -o /app ./cmd/app/
+
+FROM consul:latest
+WORKDIR /root/
+COPY --from=builder /app ./
+COPY --from=builder /go/src/github.com/automium/reactor/tmpl/homepage_basic.html tmpl/homepage.html
+COPY --from=builder /go/src/github.com/automium/reactor/static static
+
+ENV CONSUL consul-consul-server.default.svc.cluster.local
+ENV CONSUL_DATACENTER automium
+ENV CONSUL_ENCRYPT encryptionkey
+
+CMD consul agent -encrypt $CONSUL_ENCRYPT -data-dir=/tmp/consul -node-meta image:example-encrypt-basic -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && ./app
