@@ -22,4 +22,9 @@ COPY --from=builder /go/src/github.com/automium/reactor/static static
 ENV CONSUL consul-consul-server.default.svc.cluster.local
 ENV CONSUL_DATACENTER automium
 
-CMD consul agent -config-dir=/consul/config -config-dir=/consul/aclconfig -data-dir=/consul/data -node-meta image:example-acl -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && consul acl set-agent-token default $CONSUL_HTTP_TOKEN && ./app
+CMD consul agent -config-dir=/consul/config \
+ -config-dir=/consul/aclconfig -data-dir=/consul/data \
+ -node-meta image:example-acl -node-meta flavor:default \
+ -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 \
+ && consul acl set-agent-token default $CONSUL_HTTP_TOKEN \
+ && ./app

@@ -20,4 +20,8 @@ ENV CONSUL consul-consul-server.default.svc.cluster.local
 ENV CONSUL_DATACENTER automium
 ENV CONSUL_ENCRYPT encryptionkey
 
-CMD consul agent -encrypt $CONSUL_ENCRYPT -data-dir=/tmp/consul -node-meta image:example-encrypt-basic -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 && ./app
+CMD consul agent -encrypt $CONSUL_ENCRYPT \
+ -data-dir=/tmp/consul \
+ -node-meta image:example-encrypt-basic -node-meta flavor:default \
+ -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 \
+ && ./app
