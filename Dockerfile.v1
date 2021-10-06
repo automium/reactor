@@ -20,6 +20,6 @@ ENV CONSUL consul-consul-server.default.svc.cluster.local
 ENV CONSUL_DATACENTER automium
 
 CMD consul agent -data-dir=/tmp/consul \
- -node-meta image:example-basic -node-meta flavor:default \
- -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 \
- && ./app
+    -node-meta image:kubernetes-v1 -node-meta flavor:default \
+    -datacenter $CONSUL_DATACENTER -join $CONSUL & sleep 10 \
+    && ./app
